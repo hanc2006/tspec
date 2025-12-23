@@ -175,6 +175,49 @@ npx tspec generate --nestjs
 
 See the [NestJS Integration Guide](https://ts-spec.github.io/tspec/guide/nestjs-integration) for more details.
 
+## Typed Client
+
+Tspec provides a fully typed client layer that enables end-to-end type safety between your API specification and client-side usage.
+
+### Creating a Typed Client
+
+```ts
+import { createClient } from 'tspec';
+import type { AuthorApiSpec } from './server';
+
+const client = createClient<AuthorApiSpec>({
+  baseUrl: 'https://api.example.com',
+  baseHeaders: {
+    'Content-Type': 'application/json',
+  },
+});
+```
+
+### Making Type-Safe Requests
+
+```ts
+const result = await client.get('/authors/{id}', {
+  params: { id: 1 },
+});
+
+if (result.status === 200) {
+  console.log(result.body.name); // Fully typed as Author
+} else if (result.status === 404) {
+  console.error(result.body.message); // Fully typed as { message: string }
+}
+```
+
+### Features
+
+- **Path Parameters**: Automatically typed and substituted in URLs
+- **Query Parameters**: Fully typed query string support
+- **Request Body**: Type-safe request body validation for POST/PUT/PATCH
+- **Response Types**: Discriminated union types based on status codes
+- **Headers & Cookies**: Type-safe header and cookie parameters
+- **All HTTP Methods**: Support for GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD
+
+See the [client example](../../examples/client-example) for a complete working example.
+
 ## Documentation
 https://ts-spec.github.io/tspec
 

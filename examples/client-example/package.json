@@ -1,0 +1,15 @@
+{
+  "name": "tspec-client-example",
+  "version": "1.0.0",
+  "description": "Example of using tspec typed client",
+  "main": "client.ts",
+  "scripts": {
+    "start": "tsx client.ts"
+  },
+  "dependencies": {
+    "tspec": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "^3.12.7"
+  }
+}
