@@ -394,5 +394,44 @@ describe('Client Runtime', () => {
       // Restore original fetch
       globalThis.fetch = originalFetch;
     });
+
+    it('should send cookies as Cookie header', async () => {
+      mockFetch.mockResolvedValue({
+        status: 200,
+        headers: new Headers({ 'Content-Type': 'application/json' }),
+        json: async () => ({ id: 1, name: 'John Doe' }),
+      });
+
+      type ApiSpecWithCookies = Tspec.DefineApiSpec<{
+        paths: {
+          '/authors/{id}': {
+            get: {
+              path: { id: number };
+              cookie: { sessionId: string; debug: number };
+              responses: { 200: Author };
+            };
+          };
+        };
+      }>;
+
+      const client = createClient<ApiSpecWithCookies>({
+        baseUrl: 'https://api.example.com',
+        fetch: mockFetch,
+      });
+
+      await client.get('/authors/{id}', {
+        params: { id: 1 },
+        cookies: { sessionId: 'abc123', debug: 1 },
+      });
+
+      expect(mockFetch).toHaveBeenCalledWith(
+        'https://api.example.com/authors/1',
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            'Cookie': 'sessionId=abc123; debug=1',
+          }),
+        })
+      );
+    });
   });
 });

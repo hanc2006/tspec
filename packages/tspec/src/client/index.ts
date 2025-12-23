@@ -46,7 +46,7 @@ export function createClient<ApiSpec>(config: ClientConfig): Client<ApiSpec> {
     path: string,
     options: any
   ): Promise<ClientResponse<any>> {
-    const { params, query, body, headers = {} } = options || {};
+    const { params, query, body, headers = {}, cookies } = options || {};
     
     // Substitute path parameters
     const substitutedPath = substitutePath(path, params);
@@ -62,6 +62,14 @@ export function createClient<ApiSpec>(config: ClientConfig): Client<ApiSpec> {
       ...baseHeaders,
       ...headers,
     };
+    
+    // Add cookies as Cookie header if provided
+    if (cookies && Object.keys(cookies).length > 0) {
+      const cookieString = Object.entries(cookies)
+        .map(([key, value]) => `${key}=${value}`)
+        .join('; ');
+      mergedHeaders['Cookie'] = cookieString;
+    }
     
     // Build request options
     const requestOptions: RequestInit = {

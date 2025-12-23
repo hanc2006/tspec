@@ -71,6 +71,7 @@ export type RequestOptions<Spec> = {
   query?: Spec extends { query: infer Q } ? Q : never;
   body?: Spec extends { body: infer B } ? B : never;
   headers?: Spec extends { header: infer H } ? H : Record<string, string>;
+  cookies?: Spec extends { cookie: infer C } ? C : Record<string, string | number>;
 };
 
 /**

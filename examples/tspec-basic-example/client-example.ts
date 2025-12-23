@@ -17,8 +17,8 @@ const client = createClient<BookApiSpec>({
 async function getBookById(id: number) {
   const result = await client.get('/books/{id}', {
     params: { id },
-    header: { 'X-Request-ID': 'example-request-123' },
-    cookie: { debug: 1 },
+    headers: { 'X-Request-ID': 'example-request-123' },
+    cookies: { debug: 1 },
   });
 
   // TypeScript knows the exact response types based on status code
