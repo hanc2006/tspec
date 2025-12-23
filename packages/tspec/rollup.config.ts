@@ -7,6 +7,7 @@ export default defineConfig([
   {
     input: {
       index: 'src/index.ts',
+      client: 'src/client/index.ts',
       cli: 'src/cli/index.ts',
     },
     output: [
@@ -51,6 +52,7 @@ export default defineConfig([
   {
     input: {
       index: 'src/index.ts',
+      client: 'src/client/index.ts',
       cli: 'src/cli/index.ts',
     },
     output: [
