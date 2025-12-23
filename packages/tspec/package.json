@@ -57,6 +57,11 @@
       "require": "./dist/index.cjs",
       "default": "./dist/index.js"
     },
+    "./client": {
+      "types": "./dist/client/index.d.ts",
+      "require": "./dist/client.cjs",
+      "default": "./dist/client.js"
+    },
     "./cli": {
       "types": "./dist/cli/index.d.ts",
       "require": "./dist/cli.cjs",
